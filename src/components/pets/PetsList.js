@@ -1,13 +1,15 @@
 import PetsListNav from "./PetsListNav";
 import Pet from "./Pet";
 import "./PetsList.css";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 
 export const PetsList = ({ pets}) => {
   let {type} = useParams()
-  console.log(type)
   // type is 'undefined' when just /pets so for all pets need OR undefined conditional
   
+  if(type === undefined){
+    return <Navigate to = "/pets/cats" />
+  }
   // filters out pets into a dog array and cat array
   const [cats, dogs] = pets.reduce(
     (acc, pet) => {

@@ -25,14 +25,6 @@ function App() {
   const [owners] = useState(ownerData);
   const [pets] = useState(petData);
 
-  const [cats, dogs] = pets.reduce(
-    (acc, pet) => {
-      const position = pet.kind === "Cat" ? 0 : 1;
-      acc[position].push(pet);
-      return acc;
-    },
-    [[], []]
-  );
 
   return (
     <div className="wrapper">
