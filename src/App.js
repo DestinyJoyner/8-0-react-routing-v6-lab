@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 /*
   Components
@@ -17,19 +18,48 @@ import PetsList from "./components/pets/PetsList";
 import { employeeData } from "./data/employees.js";
 import { ownerData } from "./data/owners";
 import { petData } from "./data/pets";
+// import { Router } from "react-router-dom";
 
 function App() {
   const [employees] = useState(employeeData);
   const [owners] = useState(ownerData);
   const [pets] = useState(petData);
 
+  const [cats, dogs] = pets.reduce(
+    (acc, pet) => {
+      const position = pet.kind === "Cat" ? 0 : 1;
+      acc[position].push(pet);
+      return acc;
+    },
+    [[], []]
+  );
+
   return (
     <div className="wrapper">
+      <Router>
+        
       <Nav />
-      <Home employees={employees} owners={owners} pets={pets} />
-      <StaffList employees={employees} />
-      <PetsList pets={pets} />
+
+      <Routes>
+
+
+      <Route path = "/" element = {<Home employees={employees} owners={owners} pets={pets} />} />
+      {/* <Home employees={employees} owners={owners} pets={pets} /> */}
+
+      <Route path = "/staff" element = {<StaffList employees={employees} />} />
+      {/* <StaffList employees={employees} /> */}
+      
+      <Route path = "/pets" element = {<PetsList pets={pets} />} />
+      {/* <PetsList pets={pets} /> */}
+
+      {/* route for pets/cats pets/dogs */}
+      <Route path = "/pets/:type" element = {<PetsList pets={pets}  />} />
+
+      </Routes>
+
       <Footer />
+      
+      </Router>
     </div>
   );
 }
